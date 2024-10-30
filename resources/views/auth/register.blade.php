@@ -23,10 +23,18 @@
                         <form method="POST" class="needs-validation" action="{{ route('register') }}" autocomplete="off">
                             @csrf
                             <div class="mb-3">
-                                <label class="mb-2 text-muted" for="email">Nama lengkap:</label>
-                                <input id="email" type="text" class="form-control" name="name" required>
+                                <label class="mb-2 text-muted" for="name">Nama lengkap:</label>
+                                <input id="name" type="text" class="form-control" name="name" required>
                                 <div class="invalid-feedback" style="display: block;">
                                     {{ $errors->first('name') }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="nrp">NRP:</label>
+                                <input id="nrp" type="text" class="form-control" name="nrp" required>
+                                <div class="invalid-feedback" style="display: block;">
+                                    {{ $errors->first('nrp') }}
                                 </div>
                             </div>
 
