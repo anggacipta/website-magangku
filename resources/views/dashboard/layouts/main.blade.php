@@ -1,123 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
 
-<html
-    lang="en"
-    class="light-style layout-menu-fixed"
-    dir="ltr"
-    data-theme="theme-default"
-    data-assets-path="../assets/"
-    data-template="vertical-menu-template-free"
->
 <head>
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Magangku</title>
+    <link rel="shortcut icon" type="image/png" href="#" />
+    <link rel="stylesheet" href="{{ asset('assets/modernize/css/styles.css') }}" />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('assets/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-    <meta name="description" content="" />
+    {{--  Select2  --}}
+    <link href="{{ asset('assets/modernize/css/select2.min.css') }}" rel="stylesheet" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    {{--  Date Range  --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/modernize/daterangepicker/daterangepicker.css') }}" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet"
-    />
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/modernize/toastr-js/build/toastr.min.css') }}">
 
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/fonts/boxicons.css ') }}" />
+    {{--  Sweet Alert 2  --}}
+    <script src="{{ asset('assets/modernize/sweetalert2/package/dist/sweetalert2.all.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/modernize/sweetalert2/package/dist/sweetalert2.min.css') }}">
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/core.css ') }}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/css/theme-default.css ') }}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/css/demo.css ') }}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css ') }}" />
-
-    <link rel="stylesheet" href="{{ asset('assets/sneat/assets/vendor/libs/apex-charts/apex-charts.css ') }}" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
-    <script src="{{ asset('assets/sneat/assets/vendor/js/helpers.js') }}"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('assets/sneat/assets/js/config.js') }}"></script>
+    {{--  Jquery  --}}
+    <script src="{{ asset('assets/modernize/libs/jquery/dist/jquery.min.js') }}"></script>
 </head>
 
 <body>
-<!-- Layout wrapper -->
-<div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
-        <!-- Menu -->
-
-        @include('dashboard.layouts.sidebar')
-        <!-- / Menu -->
-
-        <!-- Layout container -->
-        <div class="layout-page">
-            <!-- Navbar -->
-
-            @include('dashboard.layouts.navbar')
-
-            <!-- / Navbar -->
-
-            <!-- Content wrapper -->
-            <div class="content-wrapper">
-                <!-- Content -->
-                @yield('content')
-                <!-- / Content -->
-
-                <!-- Footer -->
-                @include('dashboard.layouts.footer')
-                <!-- / Footer -->
-
-                <div class="content-backdrop fade"></div>
-            </div>
-            <!-- Content wrapper -->
-        </div>
-        <!-- / Layout page -->
+<!--  Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+     data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    @include('dashboard.layouts.sidebar')
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+        @yield('content')
     </div>
-
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
 </div>
-<!-- / Layout wrapper -->
+<!--  Body Wrapper End -->
+<script src="{{ asset('assets/modernize/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/modernize/js/sidebarmenu.js') }}"></script>
+<script src="{{ asset('assets/modernize/js/app.min.js') }}"></script>
+<script src="{{ asset('assets/modernize/libs/simplebar/dist/simplebar.js') }}"></script>
+<script src="{{ asset('assets/modernize/js/dashboard.js') }}"></script>
+<script src="{{ asset('assets/modernize/js/theme/app.min.js') }}"></script>
+<script src="{{ asset('assets/modernize/js/theme/theme.js') }}"></script>
 
-<!-- Core JS -->
-<!-- build:js assets/vendor/js/core.js -->
-<script src="{{ asset('assets/sneat/assets/vendor/libs/jquery/jquery.js ') }}"></script>
-<script src="{{ asset('assets/sneat/assets/vendor/libs/popper/popper.js ') }}"></script>
-<script src="{{ asset('assets/sneat/assets/vendor/js/bootstrap.js ') }}"></script>
-<script src="{{ asset('assets/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js ') }}"></script>
-
-<script src="{{ asset('assets/sneat/assets/vendor/js/menu.js ') }}"></script>
-<!-- endbuild -->
-
-<!-- Vendors JS -->
-<script src="{{ asset('assets/sneat/assets/vendor/libs/apex-charts/apexcharts.js ') }}"></script>
-
-<!-- Main JS -->
-<script src="{{ asset('assets/sneat/assets/js/main.js ') }}"></script>
-
-<!-- Page JS -->
-<script src="{{ asset('assets/sneat/assets/js/dashboards-analytics.js ') }}"></script>
-
+<script src="{{ asset('assets/modernize/libs/apexcharts/dist/apexcharts.js') }}"></script>
+{{--    <script src="{{ asset('assets/js/widget/widgets-chart.js') }}"></script>--}}
+{{--  DateRange  --}}
+<script type="text/javascript" src="{{ asset('assets/modernize/daterangepicker/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/modernize/daterangepicker/daterangepicker.js') }}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#date2').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+        });
+    });
+    $(function() {
+        $('#date3').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+        });
+    });
+</script>
 <!-- DataTables  & Plugins -->
 <script src="{{ asset('assets/adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('assets/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('assets/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}""></script>
+<script src="{{ asset('assets/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('assets/adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<!-- Page specific script -->
 <script>
     $(function() {
         $("#example1").DataTable({
@@ -137,8 +102,33 @@
         });
     });
 </script>
+{{--  Select2  --}}
+<script src="{{ asset('assets/modernize/js/select2.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
+{{-- Toastr --}}
+<script type="text/javascript" src="{{ asset('assets/modernize/toastr-js/build/toastr.min.js') }}"></script>
+<script>
+    @if (session('success'))
+    toastr.success("{{ session('success') }}");
+    @endif
 
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+    @if (session('error'))
+    toastr.error("{{ session('error') }}");
+    @endif
+
+    @if (session('info'))
+    toastr.info("{{ session('info') }}");
+    @endif
+
+    @if (session('warning'))
+    toastr.warning("{{ session('warning') }}");
+    @endif
+</script>
+@yield('scripts')
 </body>
+
 </html>

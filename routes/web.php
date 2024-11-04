@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Route riwayat magang
+    Route::resource('riwayat-magang', \App\Http\Controllers\Admin\RiwayatMagangController::class);
+
     // Route user management
     Route::resource('users', \App\Http\Controllers\Admin\MahasiswaController::class);
 
