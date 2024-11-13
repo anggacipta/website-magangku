@@ -8,13 +8,13 @@
             <div class="card-body px-4 py-3">
                 <div class="row align-items-center">
                     <div class="col-9">
-                        <h4 class="fw-semibold mb-8">Mahasiswa</h4>
+                        <h4 class="fw-semibold mb-8">Perusahaan</h4>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
                                     <a class="text-muted text-decoration-none" href="{{ route('dashboard') }}">Home</a>
                                 </li>
-                                <li class="breadcrumb-item" aria-current="page">Mahasiswa</li>
+                                <li class="breadcrumb-item" aria-current="page">Perusahaan</li>
                             </ol>
                         </nav>
                     </div>
@@ -31,7 +31,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama User</th>
+                    <th>Nama Perusahaan</th>
                     <th>Email</th>
                     <th>Role</th>
                     <th>Aksi</th>
@@ -45,9 +45,9 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ implode(', ', $user->roles->pluck('name')->toArray()) }}</td>
                         <td>
-                            <a href="{{ route('mahasiswa.show', $user->mahasiswa->id) }}" class="btn btn-primary">Detail User</a>
-                            <a href="{{ route('mahasiswa.edit', $user->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('mahasiswa.destroy', $user->id) }}" method="post" class="d-inline delete-form">
+{{--                            <a href="{{ route('mahasiswa.show', $user->mahasiswa->id) }}" class="btn btn-primary">Detail User</a>--}}
+                            <a href="{{ route('perusahaan.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('perusahaan.destroy', $user->id) }}" method="post" class="d-inline delete-form">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger">Delete</button>

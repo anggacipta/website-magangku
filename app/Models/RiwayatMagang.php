@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RiwayatMagang extends Model
 {
@@ -18,7 +19,7 @@ class RiwayatMagang extends Model
         'deskripsi',
     ];
 
-    public function mahasiswa()
+    public function mahasiswa(): BelongsTo
     {
         return $this->belongsTo(User::class, 'mahasiswa_id');
     }

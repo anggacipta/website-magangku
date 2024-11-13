@@ -25,11 +25,46 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Route Mahasiswa Profile
+    Route::group(['middleware' => ['role:mahasiswa']], function () {
+        Route::get('/profile/mahasiswa', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'show'])
+            ->name('profile.mahasiswa');
+        Route::get('/profile/mahasiswa/edit', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'edit'])
+            ->name('profile.mahasiswa.edit');
+        Route::put('/profile/mahasiswa/photo', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'updateProfile'])
+            ->name('profile.mahasiswa.update-photo');
+        Route::put('/profile/mahasiswa/update-password', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'updatePassword'])
+            ->name('profile.mahasiswa.update-password');
+        Route::put('/profile/mahasiswa/update', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'updateMahasiswa'])
+            ->name('profile.mahasiswa.update');
+    });
+
+    // Route Perusahaan Profile
+    Route::group(['middleware' => ['role:perusahaan']], function () {
+        Route::get('/profile/perusahaan', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'show'])
+            ->name('profile.perusahaan');
+        Route::get('/profile/perusahaan/edit', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'edit'])
+            ->name('profile.perusahaan.edit');
+        Route::put('/profile/perusahaan/photo', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'updateProfile'])
+            ->name('profile.perusahaan.update-photo');
+        Route::put('/profile/perusahaan/update-password', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'updatePassword'])
+            ->name('profile.perusahaan.update-password');
+        Route::put('/profile/perusahaan/update', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'updatePerusahaan'])
+            ->name('profile.perusahaan.update');
+    });
+
+    // Route get Mahasiswa and Perusahaan by Id
+    Route::get('/mahasiswa/{id}', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'showById'])->name('mahasiswa.show');
+    Route::get('/perusahaan/{id}', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'showById'])->name('perusahaan.show');
+
+    // Route Mahasiswa
+    Route::resource('mahasiswa', \App\Http\Controllers\Admin\MahasiswaController::class);
+
+    // Route Perusahaan
+    Route::resource('perusahaan', \App\Http\Controllers\Admin\PerusahaanController::class);
+
     // Route riwayat magang
     Route::resource('riwayat-magang', \App\Http\Controllers\Admin\RiwayatMagangController::class);
-
-    // Route user management
-    Route::resource('users', \App\Http\Controllers\Admin\MahasiswaController::class);
 
     // Route roles permissions management
     Route::resource('permissions', \App\Http\Controllers\RolePermission\PermissionController::class);

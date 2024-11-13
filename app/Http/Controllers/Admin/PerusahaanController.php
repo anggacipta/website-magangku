@@ -1,30 +1,30 @@
 <?php
 
-// app/Http/Controllers/Admin/MahasiswaController.php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MahasiswaRequest;
-use App\Http\Requests\MahasiswaUpdateRequest;
-use App\Models\Mahasiswa;
+use App\Http\Requests\PerusahaanRequest;
+use App\Http\Requests\PerusahaanUpdateRequest;
+use App\Models\Perusahaan;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class MahasiswaController extends Controller
+class PerusahaanController extends Controller
 {
     public function index()
     {
-        $users = User::role('mahasiswa')->get();
-        return view('dashboard.mahasiswa.index', compact('users'));
+        $users = User::role('perusahaan')->get();
+        return view('dashboard.perusahaan.index', compact('users'));
     }
 
     public function create()
     {
-        return view('dashboard.mahasiswa.create');
+        return view('dashboard.perusahaan.create');
     }
 
-    public function store(MahasiswaRequest $request)
+    public function store(PerusahaanRequest $request)
     {
         $request->validated();
 
@@ -32,34 +32,33 @@ class MahasiswaController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'nrp' => $request->nrp,
                 'password' => Hash::make($request->password),
             ]);
 
-            // Assign role mahasiswa role
-            $user->assignRole('mahasiswa');
+            // Assign role perusahaan role
+            $user->assignRole('perusahaan');
 
             // Create new Mahasiswa record
-            $mahasiswa = Mahasiswa::create([
+            $perusahaan = Perusahaan::create([
                 'id' => $user->id,
             ]);
 
             // Update the user record with the Mahasiswa id
             $user->update([
-                'mahasiswa_id' => $mahasiswa->id,
+                'perusahaan_id' => $perusahaan->id,
             ]);
         });
 
-        return redirect()->route('mahasiswa.index')->with('success', 'User created successfully.');
+        return redirect()->route('perusahaan.index')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('dashboard.mahasiswa.edit', compact('user'));
+        return view('dashboard.perusahaan.edit', compact('user'));
     }
 
-    public function update(MahasiswaUpdateRequest $request, $id)
+    public function update(PerusahaanUpdateRequest $request, $id)
     {
         $request->validated();
 
@@ -67,11 +66,10 @@ class MahasiswaController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'nrp' => $request->nrp,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
-        return redirect()->route('mahasiswa.index')->with('success', 'User updated successfully.');
+        return redirect()->route('perusahaan.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
@@ -79,8 +77,8 @@ class MahasiswaController extends Controller
         $user = User::findOrFail($id);
 
         // Delete the related Mahasiswa record
-        if ($user->mahasiswa) {
-            $user->mahasiswa->delete();
+        if ($user->perusahaan) {
+            $user->perusahaan->delete();
         }
 
         // Delete the related RiwayatMagang records
@@ -91,6 +89,6 @@ class MahasiswaController extends Controller
         // Delete the user record
         $user->delete();
 
-        return redirect()->route('mahasiswa.index')->with('error', 'User deleted successfully.');
+        return redirect()->route('perusahaan.index')->with('error', 'User deleted successfully.');
     }
 }

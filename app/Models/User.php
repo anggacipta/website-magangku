@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,7 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'nrp'
+        'nrp',
+        'mahasiswa_id',
+        'perusahaan_id',
     ];
 
     /**
@@ -44,8 +47,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function riwayatMagang()
+    public function riwayatMagang(): HasOne
     {
-        return $this->hasMany(RiwayatMagang::class, 'mahasiswa_id');
+        return $this->hasOne(RiwayatMagang::class, 'mahasiswa_id');
+    }
+
+    public function mahasiswa(): HasOne
+    {
+        return $this->hasOne(Mahasiswa::class, 'id', 'mahasiswa_id');
+    }
+
+    public function perusahaan(): HasOne
+    {
+        return $this->hasOne(Perusahaan::class, 'id', 'perusahaan_id');
     }
 }
