@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileService
 {
@@ -15,15 +16,13 @@ class ProfileService
 
         // Delete the old profile picture if it exists
         if ($currentPhoto) {
-            $oldPhotoPath = public_path('images/perusahaan_profile/' . $currentPhoto);
-            if (file_exists($oldPhotoPath)) {
-                unlink($oldPhotoPath);
-            }
+            Storage::disk('public')->delete('images/perusahaan_profile/' . $currentPhoto);
         }
 
         // Store the new profile picture
-        $imageName = time() . '.' . $file->extension(); // Menambahkan timestamp ke nama file
-        $file->move(public_path('images/perusahaan_profile'), $imageName);
+        $imageName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+         // Menambahkan timestamp ke nama file
+        Storage::disk('public')->put('images/perusahaan_profile/' . $imageName, file_get_contents($file));
 
         return $imageName;
     }
@@ -37,15 +36,13 @@ class ProfileService
 
         // Delete the old profile picture if it exists
         if ($currentPhoto) {
-            $oldPhotoPath = public_path('images/mahasiswa_profile/' . $currentPhoto);
-            if (file_exists($oldPhotoPath)) {
-                unlink($oldPhotoPath);
-            }
+            Storage::disk('public')->delete('images/mahasiswa_profile/' . $currentPhoto);
         }
 
         // Store the new profile picture
-        $imageName = time() . '.' . $file->extension(); // Menambahkan timestamp ke nama file
-        $file->move(public_path('images/mahasiswa_profile'), $imageName);
+        $imageName = md5(time() . $file->getClientOriginalName()) . '.' . $file->getClientOriginalExtension();
+        // Menambahkan timestamp ke nama file
+        Storage::disk('public')->put('images/mahasiswa_profile/' . $imageName, file_get_contents($file));
 
         return $imageName;
     }

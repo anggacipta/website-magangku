@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
             ->name('profile.mahasiswa.update-password');
         Route::put('/profile/mahasiswa/update', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'updateMahasiswa'])
             ->name('profile.mahasiswa.update');
+        Route::put('/profile/mahasiswa/keahlian/{mahasiswaId}', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'updateKeahlian'])
+            ->name('profile.mahasiswa.update-keahlian');
     });
 
     // Route Perusahaan Profile

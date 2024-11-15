@@ -33,7 +33,7 @@
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="d-flex align-items-center justify-content-center round-110">
                                     <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden round-100">
-                                        <img src="{{ asset('images/perusahaan_profile/'. $perusahaan?->photo) }}" alt="profile-img" width="100" height="100">
+                                        <img src="{{ asset('storage/images/perusahaan_profile/'. $perusahaan?->photo) }}" alt="profile-img" width="100" height="100">
                                     </div>
                                 </div>
                             </div>

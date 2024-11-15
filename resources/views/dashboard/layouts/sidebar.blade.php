@@ -157,9 +157,9 @@
             <div class="hstack gap-3">
                 <div class="john-img">
                     @if(auth()->user()->hasRole('mahasiswa'))
-                        <img src="{{ asset('images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                        <img src="{{ asset('storage/images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                     @elseif(auth()->user()->hasRole('perusahaan'))
-                        <img src="{{ asset('images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                        <img src="{{ asset('storage/images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                     @else
                         <img src="{{ asset('images/default_profile.png') }}" alt="" width="35" height="35" class="rounded-circle">
                     @endif

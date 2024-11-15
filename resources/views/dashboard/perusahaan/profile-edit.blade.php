@@ -33,7 +33,7 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="text-center">
-                                                <img src="{{ asset('images/perusahaan_profile/' . $perusahaan?->photo) }}" alt="Profile Picture" class="img-fluid rounded-circle" width="80" height="80">
+                                                <img src="{{ asset('storage/images/perusahaan_profile/' . $perusahaan?->photo) }}" alt="Profile Picture" class="img-fluid rounded-circle" width="80" height="80">
                                                 <div class="d-flex align-items-center justify-content-center my-4 gap-6">
                                                     <input type="file" name="photo" class="form-control">
                                                     <button type="submit" class="btn btn-primary">Upload</button>

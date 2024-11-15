@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\MahasiswaProfileUpdateRequest;
 use App\Http\Requests\Profile\MahasiswaDetailsUpdateRequest;
+use App\Models\Keahlian;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Services\ProfileService;
@@ -32,7 +33,21 @@ class MahasiswaProfileController extends Controller
     public function edit(Request $request)
     {
         $mahasiswa = $request->user()->mahasiswa;
-        return view('dashboard.mahasiswa.profile-edit', ['mahasiswa' => $mahasiswa]);
+        $keahlians = Keahlian::query()->select('id', 'nama_keahlian')->get();
+        return view('dashboard.mahasiswa.profile-edit', ['mahasiswa' => $mahasiswa, 'keahlians' => $keahlians]);
+    }
+
+    public function updateKeahlian(Request $request, $mahasiswaId)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($mahasiswaId);
+        $keahlianIds = $request->keahlian_id;
+
+        if (count($keahlianIds) > 10) {
+            return redirect()->back()->withErrors(['error' => 'Mahasiswa hanya boleh memiliki maksimal 10 keahlian.']);
+        }
+
+        $mahasiswa->keahlian()->sync($keahlianIds);
+        return redirect()->route('profile.mahasiswa.edit')->with('success', 'Keahlian updated successfully.');
     }
 
     public function updateProfile(MahasiswaProfileUpdateRequest $request)

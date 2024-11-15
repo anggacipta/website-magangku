@@ -19,9 +19,9 @@
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         @if(auth()->user()->hasRole('mahasiswa'))
-                            <img src="{{ asset('images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url('public/images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                         @elseif(auth()->user()->hasRole('perusahaan'))
-                            <img src="{{ asset('images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            <img src="{{ asset('storage/images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                         @else
                             <img src="{{ asset('images/default_profile.png') }}" alt="" width="35" height="35" class="rounded-circle">
                         @endif

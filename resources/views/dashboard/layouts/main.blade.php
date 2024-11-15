@@ -107,6 +107,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
+        $('.js-example-basic-single2').select2();
     });
 </script>
 {{-- Toastr --}}

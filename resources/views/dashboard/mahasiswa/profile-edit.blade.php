@@ -33,7 +33,7 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="text-center">
-                                                <img src="{{ asset('images/mahasiswa_profile/' . $mahasiswa->photo) }}" alt="Profile Picture" class="img-fluid rounded-circle" width="80" height="80">
+                                                <img src="{{ asset('storage/images/mahasiswa_profile/' . $mahasiswa->photo) }}" alt="Profile Picture" class="img-fluid rounded-circle" width="80" height="80">
                                                 <div class="d-flex align-items-center justify-content-center my-4 gap-6">
                                                     <input type="file" name="photo" class="form-control">
                                                     <button type="submit" class="btn btn-primary">Upload</button>
@@ -141,6 +141,45 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 mt-4">
+                                <div class="card w-100 border position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h4 class="card-title">Tambah Keahlian</h4>
+                                        <p class="card-subtitle mb-4">Tambah keahlian untuk menambah keahlian, Update keahlian untuk melakukan proses update, Hapus keahlian jika keahlian tersebut tidak relevan lagi</p>
+                                        <form action="{{ route('profile.mahasiswa.update-keahlian', $mahasiswa->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div id="keahlian-container">
+                                                @if($mahasiswa->keahlian->isEmpty())
+                                                    <div class="keahlian-item d-flex align-items-center mb-2 ">
+                                                        <select name="keahlian_id[]" class="form-select js-example-basic-single">
+                                                            @foreach($keahlians as $k)
+                                                                <option value="{{ $k->id }}">{{ $k->nama_keahlian }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <button type="button" class="btn btn-danger remove-keahlian mx-2">Hapus</button>
+                                                    </div>
+                                                @else
+                                                    @foreach($mahasiswa->keahlian as $keahlian)
+                                                        <div class="keahlian-item d-flex align-items-center mb-2">
+                                                            <select name="keahlian_id[]" class="form-select js-example-basic-single">
+                                                                @foreach($keahlians as $k)
+                                                                    <option value="{{ $k->id }}" {{ $k->id == $keahlian->id ? 'selected' : '' }}>
+                                                                        {{ $k->nama_keahlian }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <button type="button" class="btn btn-danger remove-keahlian mx-2">Hapus</button>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            <button id="add-keahlian" class="btn btn-secondary mt-2">Tambah Keahlian</button>
+                                            <button type="submit" class="btn btn-primary mt-2">Update Keahlian</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="pills-security-tab" tabindex="0">
@@ -228,5 +267,53 @@
         </div>
         @include('dashboard.layouts.footer')
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const maxKeahlian = 10;
+            const addKeahlianButton = document.getElementById('add-keahlian');
+            const keahlianContainer = document.getElementById('keahlian-container');
+            let keahlianCount = keahlianContainer.querySelectorAll('.keahlian-item').length;
+
+            // Initialize Select2 for existing elements
+            $('.js-example-basic-single').select2();
+
+            addKeahlianButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (keahlianCount < maxKeahlian) {
+                    // Destroy Select2 on the existing element to avoid conflicts
+                    $('.js-example-basic-single').select2('destroy');
+
+                    // Clone the first element and clear its value
+                    const newKeahlianItem = keahlianContainer.children[0].cloneNode(true);
+                    newKeahlianItem.querySelector('select').value = '';
+                    keahlianCount++;
+
+                    keahlianContainer.appendChild(newKeahlianItem);
+
+                    // Reinitialize Select2 for all elements, including the new one
+                    $('.js-example-basic-single').select2();
+                } else {
+                    alert('Maksimal 10 keahlian.');
+                }
+            });
+
+            keahlianContainer.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-keahlian')) {
+                    e.preventDefault();
+                    if (keahlianCount > 1) {
+                        e.target.closest('.keahlian-item').remove();
+                        keahlianCount--;
+
+                        // Reinitialize Select2 for the remaining elements
+                        $('.js-example-basic-single').select2();
+                    } else {
+                        alert('Minimal 1 keahlian.');
+                    }
+                }
+            });
+        });
+
+    </script>
 
 @endsection
