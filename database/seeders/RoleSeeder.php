@@ -22,6 +22,9 @@ class RoleSeeder extends Seeder
             'viewer',
             'moderator',
             'guest',
+            'mahasiswa',
+            'perusahaan',
+            'pembimbing_kp',
         ];
 
         foreach ($roles as $role) {

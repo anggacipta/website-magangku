@@ -7,7 +7,7 @@
         {{--   Profile atas     --}}
         <div class="card overflow-hidden">
             <div class="card-body p-0">
-                <img src="{{ asset('images/mahasiswa_profile/'. $mahasiswa?->photo) }}" alt="modernize-img" class="" width="100%" height="200" style="object-fit: cover;">
+                <img src="{{ asset('storage/images/mahasiswa_profile/'. $mahasiswa?->photo) }}" alt="modernize-img" class="" width="100%" height="200" style="object-fit: cover;">
                 <div class="row align-items-center">
                     <div class="col-lg-4 order-lg-1 order-2">
                         <div class="d-flex align-items-center justify-content-around m-4">
@@ -33,7 +33,7 @@
                             <div class="d-flex align-items-center justify-content-center mb-2">
                                 <div class="d-flex align-items-center justify-content-center round-110">
                                     <div class="border border-4 border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden round-100">
-                                        <img src="{{ asset('images/mahasiswa_profile/'. $mahasiswa?->photo) }}" alt="modernize-img" width="100" height="100">
+                                        <img src="{{ asset('storage/images/mahasiswa_profile/'. $mahasiswa?->photo) }}" alt="modernize-img" width="100" height="100">
                                     </div>
                                 </div>
                             </div>

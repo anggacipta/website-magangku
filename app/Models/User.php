@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Perusahaan::class, 'id', 'perusahaan_id');
     }
+
+    public function pembimbingKP(): HasOne
+    {
+        return $this->hasOne(PembimbingKP::class, 'id', 'pembimbing_id');
+    }
 }

@@ -3,7 +3,7 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <div>
-                <img src="#" width="50" height="50">
+                <img src="{{ asset('assets/logo-images/logo_magangku_seme8.png') }}" width="50" height="50">
             </div>
             <div>
                 <p class="fs-4 fw-bold mt-3" style="">Magangku</p>
@@ -40,14 +40,43 @@
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('angkatan.index') }}" class="sidebar-link">
                                 <div class="round-16 d-flex align-items-center justify-content-center">
                                     <i class="ti ti-circle"></i>
                                 </div>
-                                <span class="hide-menu">Data Jenis Barang</span>
+                                <span class="hide-menu">Data Angkatan</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('prodi.index') }}" class="sidebar-link">
+                                <div class="round-16 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-circle"></i>
+                                </div>
+                                <span class="hide-menu">Data Prodi</span>
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Pembimbing KP</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pembimbing.index') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-user-circle"></i>
+                    </span>
+                        <span class="hide-menu">Data Pembimbing KP</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('pembimbing.create') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-user-plus"></i>
+                    </span>
+                        <span class="hide-menu">Tambah Pembimbing KP</span>
+                    </a>
                 </li>
 
                 <li class="nav-small-cap">
@@ -113,6 +142,27 @@
                     </a>
                 </li>
 
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Surat KP</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('surat-kp.index') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-file-check"></i>
+                    </span>
+                        <span class="hide-menu">Data Surat KP</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('surat-kp.create') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-file-check"></i>
+                    </span>
+                        <span class="hide-menu">Ajukan Surat KP</span>
+                    </a>
+                </li>
+
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -157,9 +207,9 @@
             <div class="hstack gap-3">
                 <div class="john-img">
                     @if(auth()->user()->hasRole('mahasiswa'))
-                        <img src="{{ asset('storage/images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                        <img src="{{ Storage::url('images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                     @elseif(auth()->user()->hasRole('perusahaan'))
-                        <img src="{{ asset('storage/images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                        <img src="{{ Storage::url('images/mahasiswa_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
                     @else
                         <img src="{{ asset('images/default_profile.png') }}" alt="" width="35" height="35" class="rounded-circle">
                     @endif

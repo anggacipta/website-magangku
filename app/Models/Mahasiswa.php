@@ -31,4 +31,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsToMany(Keahlian::class, 'keahlian_mahasiswa');
     }
+
+    public function pelamar(): HasOne
+    {
+        return $this->hasOne(Pelamar::class, 'mahasiswa_id');
+    }
 }

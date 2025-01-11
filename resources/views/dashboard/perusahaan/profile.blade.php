@@ -7,7 +7,7 @@
         {{--   Profile atas     --}}
         <div class="card overflow-hidden">
             <div class="card-body p-0">
-                <img src="{{ asset('images/perusahaan_profile/'. $perusahaan?->photo) }}" alt="background-img" class="" width="100%" height="200" style="object-fit: cover;">
+                <img src="{{ asset('storage/images/perusahaan_profile/'. $perusahaan?->photo) }}" alt="background-img" class="" width="100%" height="200" style="object-fit: cover;">
                 <div class="row align-items-center">
                     <div class="col-lg-4 order-lg-1 order-2">
                         <div class="d-flex align-items-center justify-content-around m-4">
