@@ -115,6 +115,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/prodi/{id}', [\App\Http\Controllers\Admin\ProdiController::class, 'destroy'])
         ->name('prodi.destroy');
 
+    // Route Keahlian
+    Route::get('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'index'])
+        ->name('keahlian.index');
+    Route::post('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'store'])
+        ->name('keahlian.store');
+    Route::get('/keahlian/{id}/edit', [\App\Http\Controllers\Admin\KeahlianController::class, 'edit'])
+        ->name('keahlian.edit');
+    Route::put('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'update'])
+        ->name('keahlian.update');
+    Route::delete('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'destroy'])
+        ->name('keahlian.destroy');
+
     // Route Mahasiswa
     Route::resource('mahasiswa', \App\Http\Controllers\Admin\MahasiswaController::class);
 
