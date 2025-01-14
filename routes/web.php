@@ -63,11 +63,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/surat-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'store'])
         ->name('surat-kp.store');
     Route::get('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'showNomorSuratForm'])
-        ->name('surat_kp.show_form');
+        ->name('surat-kp.show_form');
     Route::put('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'updateNomorSurat'])
-        ->name('surat_kp.update_surat');
+        ->name('surat-kp.update_surat');
     Route::get('/surat-kp/{id}/pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'showPDF'])
-        ->name('surat_kp.show_pdf');
+        ->name('surat-kp.show_pdf');
+    Route::get('/berkas-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'showBerkasKp'])
+        ->name('berkas-kp');
+    Route::get('download-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'downloadPDF'])
+        ->name('download.pdf');
+    Route::get('preview-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewPDF'])
+        ->name('preview.pdf');
+    Route::get('/pdf/handle/{file}/{action}', [\App\Http\Controllers\Admin\SuratKPController::class, 'handleFile'])
+        ->name('pdf.handle')
+        ->middleware('signed');
+
 
     // Route Lowongan Magang
     Route::get('/lowongan-magang', [\App\Http\Controllers\Admin\LowonganMagangController::class, 'index'])

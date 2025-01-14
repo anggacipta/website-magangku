@@ -152,7 +152,15 @@
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">Surat KP</span>
+                    <span class="hide-menu">Kerja Praktek</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('berkas-kp') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-folders"></i>
+                    </span>
+                        <span class="hide-menu">Berkas KP</span>
+                    </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('surat-kp.index') }}" aria-expanded="false">
@@ -168,6 +176,14 @@
                         <i class="ti ti-file-check"></i>
                     </span>
                         <span class="hide-menu">Ajukan Surat KP</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('surat-kp.create') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-file-delta"></i>
+                    </span>
+                        <span class="hide-menu">Upload Surat Perusahaan</span>
                     </a>
                 </li>
 

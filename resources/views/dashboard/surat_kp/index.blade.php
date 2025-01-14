@@ -56,9 +56,9 @@
                             @if ($sur->status_surat == 2)
                                 {{--             Nothing                   --}}
                             @else
-                                <a href="{{ route('surat_kp.show_form', $sur->id) }}" class="btn btn-primary">Validasi</a>
+                                <a href="{{ route('surat-kp.show_form', $sur->id) }}" class="btn btn-primary">Validasi</a>
                             @endif
-                            <a href="{{ route('surat_kp.show_pdf', $sur->id) }}" class="btn btn-secondary">Tampilkan PDF</a>
+                            <a href="{{ route('surat-kp.show_pdf', $sur->id) }}" class="btn btn-secondary" target="_blank">Tampilkan PDF</a>
                         </td>
                     </tr>
                 @endforeach

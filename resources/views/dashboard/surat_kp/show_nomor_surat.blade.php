@@ -16,7 +16,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('surat_kp.update_surat', $surat->id) }}" method="post">
+                        <form action="{{ route('surat-kp.update_surat', $surat->id) }}" method="post">
                             @csrf
                             @method('put')
                             <div class="mb-3">

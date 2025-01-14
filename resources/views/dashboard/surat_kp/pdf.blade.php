@@ -31,7 +31,7 @@
 
         .header img {
            position: absolute;
-            left: 30px;
+            left: 20px;
             width: 80px;
             height: 80px;
         }
@@ -113,7 +113,7 @@
     <p>Dengan hormat,</p>
 
     <p style="text-align: justify">
-        Guna memenuhi kurikulum Politeknik Elektronika Negeri Surabaya Tahun Ajaran 2024/2025, maka
+        Guna memenuhi kurikulum Politeknik Elektronika Negeri Surabaya Tahun Ajaran {{ date('Y') }}/{{ date('Y', strtotime('+1 year')) }}, maka
         bersama surat ini, kami mohon bantuan Bapak/Ibu Pimpinan untuk memberi kesempatan Kerja
         Praktek (KP) kepada mahasiswa kami selama kurang lebih 6 (enam) bulan. Sesuai dengan jadwal
         perkuliahan yang terdapat di kampus kami, maka kegiatan KP ini direncanakan mulai tanggal
