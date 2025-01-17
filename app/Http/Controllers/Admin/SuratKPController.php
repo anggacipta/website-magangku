@@ -5,13 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NomorSuratKpUpdateRequest;
 use App\Http\Requests\SuratKpRequest;
+use App\Http\Requests\UploadSuratPerusahaanRequest;
 use App\Models\SuratKP;
+use App\Services\UploadSuratPerusahaanService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
 
 class SuratKPController extends Controller
 {
+    private $uploadService;
+
+    public function __construct(UploadSuratPerusahaanService $uploadService)
+    {
+        $this->uploadService = $uploadService;
+    }
+
     public function index()
     {
         $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat')->get();
@@ -62,7 +71,7 @@ class SuratKPController extends Controller
     public function showBerkasKp()
     {
         // Daftar file yang diizinkan
-        $files = ['surat_kp.pdf', 'proposal_kp.pdf', 'file_lain.pdf'];
+        $files = ['surat_kp.pdf', 'proposal_kp.pdf', 'cv-ats.docx'];
 
         // Generate Signed URL untuk setiap file dengan aksi preview atau download
         $signedUrls = [];
@@ -79,7 +88,7 @@ class SuratKPController extends Controller
     public function handleFile($file, $action)
     {
         // Daftar file yang diizinkan
-        $allowedFiles = ['surat_kp.pdf', 'proposal_kp.pdf', 'file_lain.pdf'];
+        $allowedFiles = ['surat_kp.pdf', 'proposal_kp.pdf', 'cv-ats.docx'];
 
         // Cek apakah file yang diminta ada dalam daftar yang diizinkan
         if (!in_array($file, $allowedFiles)) {
@@ -108,4 +117,49 @@ class SuratKPController extends Controller
         // Jika aksi tidak dikenal, berikan error
         abort(400, 'Aksi tidak valid.');
     }
+
+    public function indexUploadSurat()
+    {
+        $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat')->get();
+        return view('dashboard.surat_kp.index_upload_surat', compact('surats'));
+    }
+
+    public function showUploadSurat($id)
+    {
+        $surat = SuratKP::findOrFail($id);
+        return view('dashboard.surat_kp.show_upload_surat', compact('surat'));
+    }
+
+    public function uploadSurat(UploadSuratPerusahaanRequest $request, $id)
+    {
+        $surat = SuratKP::findOrFail($id);
+        $currentFile = $surat ? $surat->upload_surat : null;
+        $newFile = $request->file('upload_surat');
+        $suratUpdate = $request->validated();
+
+        $suratUpdate['upload_surat'] = $this->uploadService->handleFileUploadSuratPerusahaan($newFile, $currentFile);
+        $surat->update($suratUpdate);
+
+        return redirect()->route('surat-perusahaan.kp')->with('success', 'Surat perusahaan berhasil diunggah');
+    }
+
+    public function previewSuratPerusahaan($id)
+    {
+        $surat = SuratKP::findOrFail($id);
+
+        if (!$surat->upload_surat) {
+            return redirect()->back()->with('error', 'No PDF file found.');
+        }
+
+        $filePath = storage_path('app/public/surat_perusahaan/' . $surat->upload_surat);
+
+        if (!file_exists($filePath)) {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+
+        return response()->file($filePath, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
 }

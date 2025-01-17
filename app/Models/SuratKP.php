@@ -18,7 +18,8 @@ class SuratKP extends Model
         'alamat_perusahaan',
         'mahasiswa',
         'nomor_surat',
-        'status_surat'
+        'status_surat',
+        'upload_surat',
     ];
 
     protected $casts = [

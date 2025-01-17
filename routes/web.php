@@ -77,6 +77,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/pdf/handle/{file}/{action}', [\App\Http\Controllers\Admin\SuratKPController::class, 'handleFile'])
         ->name('pdf.handle')
         ->middleware('signed');
+    Route::get('/surat-perusahaan/kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'indexUploadSurat'])
+        ->name('surat-perusahaan.kp');
+    Route::get('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'showUploadSurat'])
+        ->name('surat-perusahaan.kp.show');
+    Route::put('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'uploadSurat'])
+        ->name('surat-perusahaan.kp.upload');
+    Route::get('surat-kp/preview/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewSuratPerusahaan'])
+        ->name('surat-kp.preview');
 
 
     // Route Lowongan Magang

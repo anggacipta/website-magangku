@@ -58,6 +58,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-header text-bg-primary">
+                            <h4 class="mb-0 text-white card-title">CV ATS Friendly</h4>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Berkas Wajib</h3>
+                            <p class="card-text">
+                                CV ATS Friendly adalah Curriculum Vitae yang dibuat dengan format yang dapat dibaca oleh sistem ATS (Applicant Tracking System).
+                            </p>
+                            <a href="{{ $signedUrls['cv-ats.docx']['download'] }}" class="btn btn-primary">Download Template</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         @include('dashboard.layouts.footer')
