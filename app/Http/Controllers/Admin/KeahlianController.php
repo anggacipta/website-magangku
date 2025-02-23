@@ -21,7 +21,7 @@ class KeahlianController extends Controller
         $request->validated();
 
         Keahlian::create([
-            'nama_keahlian' => $request->tahun_angkatan,
+            'nama_keahlian' => $request->nama_keahlian,
         ]);
 
         return redirect()->route('keahlian.index')
@@ -71,6 +71,6 @@ class KeahlianController extends Controller
         }
 
         return redirect()->route('keahlian.index')
-            ->with('success', 'Keahlian berhasil dihapus');
+            ->with('error', 'Keahlian berhasil dihapus');
     }
 }

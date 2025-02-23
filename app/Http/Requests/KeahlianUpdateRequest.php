@@ -24,7 +24,7 @@ class KeahlianUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_keahlian' => 'required'
+            'nama_keahlian' => 'required|string'
         ];
     }
 }

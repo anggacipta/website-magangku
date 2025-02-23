@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,9 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'nrp',
+        'nip_nrp',
         'mahasiswa_id',
         'perusahaan_id',
+        'pembimbing_id'
     ];
 
     /**
@@ -65,5 +67,10 @@ class User extends Authenticatable
     public function pembimbingKP(): HasOne
     {
         return $this->hasOne(PembimbingKP::class, 'id', 'pembimbing_id');
+    }
+
+    public function lowongan(): HasMany
+    {
+        return $this->hasMany(LowonganMagang::class);
     }
 }

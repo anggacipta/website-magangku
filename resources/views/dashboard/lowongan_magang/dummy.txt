@@ -1,0 +1,20 @@
+<div class="app-invoice">
+                        <ul class="overflow-auto invoice-users" data-simplebar="init">
+                            @foreach ($lowonganMagangs as $lowongan)
+                                    <li>
+                                        <a href="javascript:void(0)" class="p-3 bg-hover-light-black border-bottom d-flex align-items-start invoice-user listing-user" id="invoice-{{ $lowongan->id }}" data-invoice-id="{{ $lowongan->id }}">
+                                            <div class="btn btn-info round rounded-circle d-flex align-items-center justify-content-center px-2">
+                                                <i class="ti ti-user fs-6"></i>
+                                            </div>
+                                            <div class="ms-3 d-inline-block w-75">
+                                                <h6 class="mb-0 invoice-customer">{{ $lowongan->posisi }}</h6>
+                                                <span class="fs-3 invoice-id text-truncate text-body-color d-block w-85">{!! Purifier::clean($lowongan->deskripsi) !!}</span>
+                                                @foreach($lowongan->pelamars as $pelamar)
+                                                <span class="fs-3 invoice-date text-nowrap text-body-color d-block">{{ $pelamar->mahasiswa->deskripsi }}</span>
+                                                @endforeach
+                                            </div>
+                                        </a>
+                                    </li>
+                            @endforeach
+                        </ul>
+                    </div>

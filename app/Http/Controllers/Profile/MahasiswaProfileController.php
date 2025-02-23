@@ -26,8 +26,10 @@ class MahasiswaProfileController extends Controller
 
     public function show(Request $request)
     {
-        $mahasiswa = $request->user()->mahasiswa;
-        return view('dashboard.mahasiswa.profile', ['mahasiswa' => $mahasiswa]);
+        $user = $request->user();
+        $mahasiswa = $user->mahasiswa;
+        $riwayatMagang = $request->user()->riwayatMagang()->where('mahasiswa_id', $user->id)->get();
+        return view('dashboard.mahasiswa.profile', ['mahasiswa' => $mahasiswa, 'riwayatMagang' => $riwayatMagang]);
     }
 
     public function edit(Request $request)
@@ -71,13 +73,13 @@ class MahasiswaProfileController extends Controller
             'new_password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = auth()->user();
+        $user = User::findOrFail(auth()->id());
 
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Current password is incorrect']);
         }
 
-        $user->update([
+        User::where('id', $user->id)->update([
             'password' => Hash::make($request->new_password),
         ]);
 
@@ -91,10 +93,10 @@ class MahasiswaProfileController extends Controller
         $validated = $request->validated();
 
         DB::transaction(function () use ($user, $mahasiswa, $validated, $request) {
-            $user->update([
+            User::where('id', $user->id)->update([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'nrp' => $validated['nrp'],
+                'nip_nrp' => $validated['nrp'],
             ]);
 
             $mahasiswaData = [

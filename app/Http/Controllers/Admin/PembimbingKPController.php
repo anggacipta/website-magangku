@@ -67,7 +67,7 @@ class PembimbingKPController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'nip' => $request->nip,
+            'nip_nrp' => $request->nip_nrp,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 

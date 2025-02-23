@@ -111,7 +111,7 @@
                                                 <div class="col-lg-6">
                                                     <div class="mb-3">
                                                         <label for="exampleInputtext2" class="form-label">NRP</label>
-                                                        <input type="number" name="nrp" class="form-control" id="exampleInputtext2" value="{{ auth()->user()->nrp }}">
+                                                        <input type="number" name="nrp" class="form-control" id="exampleInputtext2" value="{{ auth()->user()->nip_nrp }}">
                                                     </div>
 {{--                                                    <div class="mb-3">--}}
 {{--                                                        <label class="form-label">Currency</label>--}}
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mt-4">
+                            <div class="col-8 mt-4">
                                 <div class="card w-100 border position-relative overflow-hidden mb-0">
                                     <div class="card-body p-4">
                                         <h4 class="card-title">Tambah Keahlian</h4>
@@ -177,6 +177,21 @@
                                             <button id="add-keahlian" class="btn btn-secondary mt-2">Tambah Keahlian</button>
                                             <button type="submit" class="btn btn-primary mt-2">Update Keahlian</button>
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 mt-4">
+                                <div class="card w-100 border position-relative overflow-hidden mb-0">
+                                    <div class="card-body p-4">
+                                        <h4 class="card-title">Keahlian Saya</h4>
+                                        <p class="card-subtitle mb-4">Daftar keahlian yang sudah Anda miliki</p>
+                                        <ul class="list-group">
+                                            @foreach($mahasiswa->keahlian as $keahlian)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    {{ $keahlian->nama_keahlian }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -24,7 +24,7 @@ class ProdiUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_prodi' => 'required',
+            'nama_prodi' => 'required|string',
         ];
     }
 }

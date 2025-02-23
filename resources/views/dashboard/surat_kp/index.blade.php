@@ -48,15 +48,17 @@
                         <td>
                             @if ($sur->status_surat == 1)
                                 <span class="badge bg-warning">Menunggu Validasi</span>
-                            @elseif ($sur->status_surat == 2)
+                            @elseif ($sur->status_surat == 2 || $sur->status_surat == 3 || $sur->status_surat == 4)
                                 <span class="badge bg-success">Disetujui</span>
                             @endif
                         </td>
                         <td>
-                            @if ($sur->status_surat == 2)
+                            @if ($sur->status_surat == 2 || $sur->status_surat == 3 || $sur->status_surat == 4)
                                 {{--             Nothing                   --}}
                             @else
+                                @can('validasi.surat.kp')
                                 <a href="{{ route('surat-kp.show_form', $sur->id) }}" class="btn btn-primary">Validasi</a>
+                                @endcan
                             @endif
                             <a href="{{ route('surat-kp.show_pdf', $sur->id) }}" class="btn btn-secondary" target="_blank">Tampilkan PDF</a>
                         </td>

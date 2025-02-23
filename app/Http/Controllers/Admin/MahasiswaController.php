@@ -67,7 +67,7 @@ class MahasiswaController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'nrp' => $request->nrp,
+            'nip_nrp' => $request->nip_nrp,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 

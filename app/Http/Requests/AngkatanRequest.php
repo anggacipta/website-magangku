@@ -24,7 +24,7 @@ class AngkatanRequest extends FormRequest
     public function rules()
     {
         return [
-            'tahun_angkatan' => 'required|unique:angkatans,tahun_angkatan',
+            'tahun_angkatan' => 'required|string|unique:angkatans,tahun_angkatan',
         ];
     }
 

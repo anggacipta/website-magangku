@@ -17,9 +17,10 @@ class RiwayatMagang extends Model
         'tanggal_mulai',
         'tanggal_selesai',
         'deskripsi',
+        'foto_kegiatan',
     ];
 
-    public function mahasiswa(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'mahasiswa_id');
     }

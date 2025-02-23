@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Mahasiswa extends Model
@@ -14,7 +15,10 @@ class Mahasiswa extends Model
 
     protected $fillable = [
         'photo',
-        'deskripsi'
+        'deskripsi',
+        'pembimbing_id',
+        'prodi_id',
+        'angkatan_id'
     ];
 
     public function user(): BelongsTo
@@ -35,5 +39,25 @@ class Mahasiswa extends Model
     public function pelamar(): HasOne
     {
         return $this->hasOne(Pelamar::class, 'mahasiswa_id');
+    }
+
+    public function prodi(): BelongsTo
+    {
+        return $this->belongsTo(Prodi::class);
+    }
+
+    public function angkatan(): BelongsTo
+    {
+        return $this->belongsTo(Angkatan::class);
+    }
+
+    public function pembimbing(): BelongsTo
+    {
+        return $this->belongsTo(PembimbingKP::class, 'pembimbing_id');
+    }
+
+    public function suratKp(): HasMany
+    {
+        return $this->hasMany(SuratKP::class);
     }
 }

@@ -21,9 +21,8 @@ Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class
     ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])
+    ->middleware(['permission:dashboard'])->name('dashboard');
 
     // Route Mahasiswa Profile
     Route::group(['middleware' => ['role:mahasiswa']], function () {
@@ -56,44 +55,123 @@ Route::middleware('auth')->group(function () {
     });
 
     // Route Surat KP
-    Route::get('/surat-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'index'])
+    Route::group(['middleware' => ['permission:data.surat.kp']], function () {
+        Route::get('/surat-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'index'])
         ->name('surat-kp.index');
-    Route::get('/surat-kp/create', [\App\Http\Controllers\Admin\SuratKPController::class, 'showForm'])
+    });
+    Route::group(['middleware' => ['permission:ajukan.surat.kp']], function () {
+        Route::get('/surat-kp/create', [\App\Http\Controllers\Admin\SuratKPController::class, 'showForm'])
         ->name('surat-kp.create');
-    Route::post('/surat-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'store'])
-        ->name('surat-kp.store');
-    Route::get('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'showNomorSuratForm'])
-        ->name('surat-kp.show_form');
-    Route::put('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'updateNomorSurat'])
-        ->name('surat-kp.update_surat');
-    Route::get('/surat-kp/{id}/pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'showPDF'])
+        Route::post('/surat-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'store'])
+            ->name('surat-kp.store');
+    });
+    Route::group(['middleware' => ['permission:validasi.surat.kp']], function () {
+        Route::get('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'showNomorSuratForm'])
+            ->name('surat-kp.show_form');
+        Route::put('/surat-kp/{id}/nomor-surat', [\App\Http\Controllers\Admin\SuratKPController::class, 'updateNomorSurat'])
+            ->name('surat-kp.update_surat');
+    });
+    Route::group(['middleware' => ['permission:berkas.kp']], function () {
+        Route::get('/surat-kp/{id}/pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'showPDF'])
         ->name('surat-kp.show_pdf');
-    Route::get('/berkas-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'showBerkasKp'])
-        ->name('berkas-kp');
-    Route::get('download-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'downloadPDF'])
-        ->name('download.pdf');
-    Route::get('preview-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewPDF'])
-        ->name('preview.pdf');
-    Route::get('/pdf/handle/{file}/{action}', [\App\Http\Controllers\Admin\SuratKPController::class, 'handleFile'])
-        ->name('pdf.handle')
-        ->middleware('signed');
-    Route::get('/surat-perusahaan/kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'indexUploadSurat'])
+        Route::get('/berkas-kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'showBerkasKp'])
+            ->name('berkas-kp');
+        Route::get('download-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'downloadPDF'])
+            ->name('download.pdf');
+        Route::get('preview-pdf', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewPDF'])
+            ->name('preview.pdf');
+        Route::get('/pdf/handle/{file}/{action}', [\App\Http\Controllers\Admin\SuratKPController::class, 'handleFile'])
+            ->name('pdf.handle')
+            ->middleware('signed');
+    }); 
+    Route::group(['middleware' => ['permission:upload.surat.perusahaan']], function () { 
+        Route::get('/surat-perusahaan/kp', [\App\Http\Controllers\Admin\SuratKPController::class, 'indexUploadSurat'])
         ->name('surat-perusahaan.kp');
-    Route::get('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'showUploadSurat'])
-        ->name('surat-perusahaan.kp.show');
-    Route::put('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'uploadSurat'])
-        ->name('surat-perusahaan.kp.upload');
-    Route::get('surat-kp/preview/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewSuratPerusahaan'])
-        ->name('surat-kp.preview');
-
+        Route::get('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'showUploadSurat'])
+            ->name('surat-perusahaan.kp.show');
+        Route::put('/surat-perusahaan/kp/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'uploadSurat'])
+            ->name('surat-perusahaan.kp.upload');
+        Route::get('surat-kp/preview/{id}', [\App\Http\Controllers\Admin\SuratKPController::class, 'previewSuratPerusahaan'])
+            ->name('surat-kp.preview');
+    });
+    Route::group(['middleware' => ['permission:status.mahasiswa']], function () { 
+        Route::get('surat-kp/status-mahasiswa', [\App\Http\Controllers\Admin\SuratKPController::class, 'showStatus'])
+        ->name('surat-kp.status-mahasiswa');
+    });
 
     // Route Lowongan Magang
     Route::get('/lowongan-magang', [\App\Http\Controllers\Admin\LowonganMagangController::class, 'index'])
         ->name('lowongan-magang.index');
+    Route::group(['middleware' => ['permission:tambah.lowongan.magang']], function () { 
+        Route::get('/lowongan-magang/create', [\App\Http\Controllers\Admin\LowonganMagangController::class, 'create'])
+        ->name('lowongan-magang.create');
+        Route::post('/lowongan-magang', [\App\Http\Controllers\Admin\LowonganMagangController::class, 'store'])
+            ->name('lowongan-magang.store');
+    });
 
     // Route get Mahasiswa and Perusahaan by Id
     Route::get('/mahasiswa/{id}', [\App\Http\Controllers\Profile\MahasiswaProfileController::class, 'showById'])->name('mahasiswa.show');
     Route::get('/perusahaan/{id}', [\App\Http\Controllers\Profile\PerusahaanProfileController::class, 'showById'])->name('perusahaan.show');
+
+
+    // Route Data Master
+    Route::group(['middleware' => ['permission:data.master']], function () {
+         // Route Angkatan
+        Route::get('/angkatan', [\App\Http\Controllers\Admin\AngkatanController::class, 'index'])
+        ->name('angkatan.index');
+        Route::post('/angkatan', [\App\Http\Controllers\Admin\AngkatanController::class, 'store'])
+            ->name('angkatan.store');
+        Route::get('/angkatan/{id}/edit', [\App\Http\Controllers\Admin\AngkatanController::class, 'edit'])
+            ->name('angkatan.edit');
+        Route::put('/angkatan/{id}', [\App\Http\Controllers\Admin\AngkatanController::class, 'update'])
+            ->name('angkatan.update');
+        Route::delete('/angkatan/{id}', [\App\Http\Controllers\Admin\AngkatanController::class, 'destroy'])
+            ->name('angkatan.destroy');
+
+        // Route Prodi
+        Route::get('/prodi', [\App\Http\Controllers\Admin\ProdiController::class, 'index'])
+            ->name('prodi.index');
+        Route::post('/prodi', [\App\Http\Controllers\Admin\ProdiController::class, 'store'])
+            ->name('prodi.store');
+        Route::get('/prodi/{id}/edit', [\App\Http\Controllers\Admin\ProdiController::class, 'edit'])
+            ->name('prodi.edit');
+        Route::put('/prodi/{id}', [\App\Http\Controllers\Admin\ProdiController::class, 'update'])
+            ->name('prodi.update');
+        Route::delete('/prodi/{id}', [\App\Http\Controllers\Admin\ProdiController::class, 'destroy'])
+            ->name('prodi.destroy');
+
+        // Route Keahlian
+        Route::get('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'index'])
+            ->name('keahlian.index');
+        Route::post('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'store'])
+            ->name('keahlian.store');
+        Route::get('/keahlian/{id}/edit', [\App\Http\Controllers\Admin\KeahlianController::class, 'edit'])
+            ->name('keahlian.edit');
+        Route::put('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'update'])
+            ->name('keahlian.update');
+        Route::delete('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'destroy'])
+            ->name('keahlian.destroy');
+
+        // Route Lokasi
+        Route::get('/lokasi', [\App\Http\Controllers\Admin\LokasiController::class, 'index'])
+            ->name('lokasi.index');
+        Route::post('/lokasi', [\App\Http\Controllers\Admin\LokasiController::class, 'store'])
+            ->name('lokasi.store');
+        Route::get('/lokasi/{id}/edit', [\App\Http\Controllers\Admin\LokasiController::class, 'edit'])
+            ->name('lokasi.edit');
+        Route::put('/lokasi/{id}', [\App\Http\Controllers\Admin\LokasiController::class, 'update'])
+            ->name('lokasi.update');
+        Route::delete('/lokasi/{id}', [\App\Http\Controllers\Admin\LokasiController::class, 'destroy'])
+            ->name('lokasi.destroy');
+    }); 
+
+    // Route Pengguna
+    Route::group(['middleware' => ['permission:pengguna']], function () {
+        Route::get('/pengguna/create', [\App\Http\Controllers\Admin\PenggunaController::class, 'create'])
+            ->name('pengguna.create');
+        Route::post('/pengguna', [\App\Http\Controllers\Admin\PenggunaController::class, 'store'])
+            ->name('pengguna.store'); 
+    });
 
     // Route Pembimbing KP
     Route::get('/pembimbing-kp', [\App\Http\Controllers\Admin\PembimbingKPController::class, 'index'])
@@ -109,41 +187,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/pembimbing-kp/{id}', [\App\Http\Controllers\Admin\PembimbingKPController::class, 'destroy'])
         ->name('pembimbing.destroy');
 
-    // Route Angkatan
-    Route::get('/angkatan', [\App\Http\Controllers\Admin\AngkatanController::class, 'index'])
-        ->name('angkatan.index');
-    Route::post('/angkatan', [\App\Http\Controllers\Admin\AngkatanController::class, 'store'])
-        ->name('angkatan.store');
-    Route::get('/angkatan/{id}/edit', [\App\Http\Controllers\Admin\AngkatanController::class, 'edit'])
-        ->name('angkatan.edit');
-    Route::put('/angkatan/{id}', [\App\Http\Controllers\Admin\AngkatanController::class, 'update'])
-        ->name('angkatan.update');
-    Route::delete('/angkatan/{id}', [\App\Http\Controllers\Admin\AngkatanController::class, 'destroy'])
-        ->name('angkatan.destroy');
-
-    // Route Prodi
-    Route::get('/prodi', [\App\Http\Controllers\Admin\ProdiController::class, 'index'])
-        ->name('prodi.index');
-    Route::post('/prodi', [\App\Http\Controllers\Admin\ProdiController::class, 'store'])
-        ->name('prodi.store');
-    Route::get('/prodi/{id}/edit', [\App\Http\Controllers\Admin\ProdiController::class, 'edit'])
-        ->name('prodi.edit');
-    Route::put('/prodi/{id}', [\App\Http\Controllers\Admin\ProdiController::class, 'update'])
-        ->name('prodi.update');
-    Route::delete('/prodi/{id}', [\App\Http\Controllers\Admin\ProdiController::class, 'destroy'])
-        ->name('prodi.destroy');
-
-    // Route Keahlian
-    Route::get('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'index'])
-        ->name('keahlian.index');
-    Route::post('/keahlian', [\App\Http\Controllers\Admin\KeahlianController::class, 'store'])
-        ->name('keahlian.store');
-    Route::get('/keahlian/{id}/edit', [\App\Http\Controllers\Admin\KeahlianController::class, 'edit'])
-        ->name('keahlian.edit');
-    Route::put('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'update'])
-        ->name('keahlian.update');
-    Route::delete('/keahlian/{id}', [\App\Http\Controllers\Admin\KeahlianController::class, 'destroy'])
-        ->name('keahlian.destroy');
 
     // Route Mahasiswa
     Route::resource('mahasiswa', \App\Http\Controllers\Admin\MahasiswaController::class);
@@ -152,16 +195,35 @@ Route::middleware('auth')->group(function () {
     Route::resource('perusahaan', \App\Http\Controllers\Admin\PerusahaanController::class);
 
     // Route riwayat magang
-    Route::resource('riwayat-magang', \App\Http\Controllers\Admin\RiwayatMagangController::class);
+    Route::get('/riwayat-magang/mahasiswa', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'riwayatShow'])
+        ->name('riwayat-magang.mahasiswa');
+    Route::group(['middleware' => ['permission:tambah.riwayat.magang.mahasiswa']], function () {
+        Route::get('/riwayat-magang/mahasiswa/create', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'riwayatCreateMahasiswa'])
+        ->name('riwayat-magang.create.mahasiswas');
+        Route::post('/riwayat-magang/mahasiswa/store', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'riwayatStoreMahasiswa'])
+            ->name('riwayat-magang.store.mahasiswa');
+    });
+    Route::group(['middleware' => ['permission:data.riwayat.magang']], function () { 
+        Route::get('/riwayat-magang', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'index'])->name('riwayat-magang.index');
+        Route::get('/riwayat-magang/{id}/edit', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'edit'])->name('riwayat-magang.edit');
+        Route::put('/riwayat-magang/{id}', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'update'])->name('riwayat-magang.update');
+        Route::delete('/riwayat-magang/{id}', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'destroy'])->name('riwayat-magang.destroy');
+    });
+    Route::group(['middleware' => ['permission:tambah.riwayat.magang']], function () {
+        Route::get('/riwayat-magang/create', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'create'])->name('riwayat-magang.create');
+        Route::post('/riwayat-magang', [\App\Http\Controllers\Admin\RiwayatMagangController::class, 'store'])->name('riwayat-magang.store');    
+    }); 
 
     // Route roles permissions management
-    Route::resource('permissions', \App\Http\Controllers\RolePermission\PermissionController::class);
-    Route::resource('roles', \App\Http\Controllers\RolePermission\RoleController::class);
-    // Extra Route Roles and Permissions
-    Route::get('/role-assignment', [\App\Http\Controllers\RolePermission\RoleController::class, 'showForm'])->name('role-assignment.form');
-    Route::post('/role-assignment', [\App\Http\Controllers\RolePermission\RoleController::class, 'assignRole'])->name('role-assignment.assign');
-    Route::get('roles/{role}/permissions', [\App\Http\Controllers\RolePermission\RoleController::class, 'edit'])->name('roles.permissions.edit');
-    Route::put('roles/{role}/permissions', [\App\Http\Controllers\RolePermission\RoleController::class, 'update'])->name('roles.permissions.update');
+    Route::group(['middleware' => ['permission:permission|roles']], function () {
+        Route::resource('permissions', \App\Http\Controllers\RolePermission\PermissionController::class);
+        Route::resource('roles', \App\Http\Controllers\RolePermission\RoleController::class);
+        // Extra Route Roles and Permissions
+        Route::get('/role-assignment', [\App\Http\Controllers\RolePermission\RoleController::class, 'showForm'])->name('role-assignment.form');
+        Route::post('/role-assignment', [\App\Http\Controllers\RolePermission\RoleController::class, 'assignRole'])->name('role-assignment.assign');
+        Route::get('roles/{role}/permissions', [\App\Http\Controllers\RolePermission\RoleController::class, 'edit'])->name('roles.permissions.edit');
+        Route::put('roles/{role}/permissions', [\App\Http\Controllers\RolePermission\RoleController::class, 'update'])->name('roles.permissions.update');
+    });
 });
 
 Route::get('/test-pdf', function (){

@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NomorSuratKpUpdateRequest;
 use App\Http\Requests\SuratKpRequest;
 use App\Http\Requests\UploadSuratPerusahaanRequest;
+use App\Models\Angkatan;
+use App\Models\Prodi;
 use App\Models\SuratKP;
 use App\Services\UploadSuratPerusahaanService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SuratKPController extends Controller
 {
@@ -23,7 +26,17 @@ class SuratKPController extends Controller
 
     public function index()
     {
-        $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat')->get();
+        $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat', 'mahasiswa_id')->get();
+        $user = auth()->user();
+
+        if ($user->hasRole('mahasiswa')) {
+            $surats = $surats->where('mahasiswa_id', $user->mahasiswa_id);
+        } elseif ($user->hasRole('pembimbing_kp')) {
+            // Do nothing, show all data
+        } else {
+            $surats = collect(); // Empty collection
+            return view('dashboard.surat_kp.index', compact('surats'))->with('error', 'Anda tidak memiliki akses untuk melihat data ini.');
+        }
         return view('dashboard.surat_kp.index', compact('surats'));
     }
 
@@ -34,7 +47,21 @@ class SuratKPController extends Controller
 
     public function store(SuratKpRequest $request)
     {
+        $user = auth()->user();
+        $mahasiswa = $user->mahasiswa;
+
+        // Check if the student has submitted the surat_perusahaan
+        $existingSuratKP = SuratKP::where('mahasiswa_id', $mahasiswa->id)
+            ->whereIn('status_surat', [1, 2])
+            ->first();
+
+        if ($existingSuratKP && !$existingSuratKP->upload_surat) {
+            return redirect()->back()->with('error', 'Anda tidak dapat mengajukan surat KP baru sebelum validasi dan mengumpulkan surat perusahaan.');
+        }
+
         $data = $request->validated();
+
+        $data['mahasiswa_id'] = auth()->user()->mahasiswa_id ?? auth()->user()->id;
 
         // Simpan data ke database
         SuratKP::create($data);
@@ -61,9 +88,9 @@ class SuratKPController extends Controller
     public function showPDF($id)
     {
         $surat = SuratKP::findOrFail($id);
-        $currentDate = now()->format('d F Y');
-        $formatTanggalMulai = date('d F', strtotime($surat->tanggal_mulai));
-        $formatTanggalSelesai = date('d F Y', strtotime($surat->tanggal_selesai));
+        $currentDate = Carbon::now()->locale('id')->translatedFormat('d F Y');
+        $formatTanggalMulai = Carbon::parse($surat->tanggal_mulai)->locale('id')->translatedFormat('d F Y');
+        $formatTanggalSelesai = Carbon::parse($surat->tanggal_selesai)->locale('id')->translatedFormat('d F Y');
         $pdf = Pdf::loadView('dashboard.surat_kp.pdf', compact('surat', 'currentDate', 'formatTanggalMulai', 'formatTanggalSelesai'));
         return $pdf->stream('surat_kp.pdf');
     }
@@ -120,7 +147,16 @@ class SuratKPController extends Controller
 
     public function indexUploadSurat()
     {
-        $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat')->get();
+        $surats = SuratKP::select('id', 'nama_perusahaan', 'tanggal_mulai', 'tanggal_selesai', 'status_surat', 'mahasiswa_id')->get();
+        $user = auth()->user();
+        if ($user->hasRole('mahasiswa')) {
+            $surats = $surats->where('mahasiswa_id', $user->mahasiswa_id);
+        } elseif ($user->hasRole('pembimbing_kp')) {
+            // Do nothing, show all data
+        } else {
+            $surats = collect(); // Empty collection
+            return view('dashboard.surat_kp.index', compact('surats'))->with('error', 'Anda tidak memiliki akses untuk melihat data ini.');
+        }
         return view('dashboard.surat_kp.index_upload_surat', compact('surats'));
     }
 
@@ -160,6 +196,32 @@ class SuratKPController extends Controller
         return response()->file($filePath, [
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    public function showStatus(Request $request)
+    {
+        // Fetch all Prodi and Angkatan for the filters
+        $prodiList = Prodi::query()->select('nama_prodi')->get();
+        $angkatanList = Angkatan::query()->select('tahun_angkatan')->get();
+
+        // Fetch all Surat KP records with the related user and status
+        $query = SuratKP::query()->with('mahasiswas');
+
+        if ($request->filled('prodi')) {
+            $query->whereHas('mahasiswas.prodi', function ($q) use ($request) {
+                $q->where('nama_prodi', $request->prodi);
+            });
+        }
+
+        if ($request->filled('angkatan')) {
+            $query->whereHas('mahasiswas.angkatan', function ($q) use ($request) {
+                $q->where('tahun_angkatan', $request->angkatan);
+            });
+        }
+
+        $suratKPs = $query->get()->groupBy('mahasiswa_id');
+
+        return view('dashboard.surat_kp.status', compact('suratKPs', 'prodiList', 'angkatanList'));
     }
 
 }

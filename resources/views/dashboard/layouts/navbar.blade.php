@@ -19,9 +19,17 @@
                     <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         @if(auth()->user()->hasRole('mahasiswa'))
-                            <img src="{{ \Illuminate\Support\Facades\Storage::url('public/images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            @if (auth()->user()->mahasiswa->photo == null)
+                                <img src="{{ asset('images/no_image.png') }}" alt="" width="35" height="35" class="rounded-circle">
+                            @else
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url('public/images/mahasiswa_profile/' . auth()->user()->mahasiswa->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            @endif
                         @elseif(auth()->user()->hasRole('perusahaan'))
-                            <img src="{{ asset('storage/images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            @if (auth()->user()->perusahaan->photo == null)
+                                <img src="{{ asset('images/no_image.png') }}" alt="" width="35" height="35" class="rounded-circle">
+                            @else
+                                <img src="{{ asset('storage/images/perusahaan_profile/' . auth()->user()->perusahaan->photo) }}" alt="" width="35" height="35" class="rounded-circle">
+                            @endif
                         @else
                             <img src="{{ asset('images/default_profile.png') }}" alt="" width="35" height="35" class="rounded-circle">
                         @endif

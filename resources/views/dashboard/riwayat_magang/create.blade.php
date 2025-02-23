@@ -18,7 +18,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form id="barangForm" action="{{ route('riwayat-magang.store') }}" method="post" enctype="multipart/form-data">
+                        <form id="barangForm" action="{{ route('riwayat-magang.store') }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">

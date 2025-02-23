@@ -32,7 +32,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="nip" class="form-label">Nomor Induk Pegawai</label>
-                                        <input type="number" name="nip" class="form-control" id="nip"
+                                        <input type="number" name="nip_nrp" class="form-control" id="nip"
                                                aria-describedby="emailHelp" value="{{ $user->nip }}">
                                     </div>
                                 </div>

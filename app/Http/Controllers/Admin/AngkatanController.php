@@ -71,6 +71,6 @@ class AngkatanController extends Controller
         }
 
         return redirect()->route('angkatan.index')
-            ->with('success', 'Angkatan deleted successfully');
+            ->with('error', 'Angkatan deleted successfully');
     }
 }

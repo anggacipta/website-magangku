@@ -26,6 +26,60 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card w-100 position-relative overflow-hidden">
+                  <div class="card-body">
+                    <div class="d-flex align-items-end justify-content-between">
+                      <div>
+                        <h4 class="mb-0 card-title fs-6">{{ $mahasiswaCount }}</h4>
+                        <p class="card-subtitle">Mahasiswa</p>
+                      </div>
+                      <span class="text-success fw-normal">+1.20%</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card w-100 position-relative overflow-hidden">
+                  <div class="card-body">
+                    <div class="d-flex align-items-end justify-content-between">
+                      <div>
+                        <h4 class="mb-0 card-title fs-6">{{ $pembimbingCount }}</h4>
+                        <p class="card-subtitle">Pembimbing Kerja Praktek</p>
+                      </div>
+                      <span class="text-success fw-normal">+1.20%</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card w-100 position-relative overflow-hidden">
+                  <div class="card-body">
+                    <div class="d-flex align-items-end justify-content-between">
+                      <div>
+                        <h4 class="mb-0 card-title fs-6">{{ $perusahaanCount }}</h4>
+                        <p class="card-subtitle">Perusahaan</p>
+                      </div>
+                      <span class="text-success fw-normal">+1.20%</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 d-flex align-items-stretch">
+                <div class="card w-100 position-relative overflow-hidden">
+                  <div class="card-body">
+                    <div class="d-flex align-items-end justify-content-between">
+                      <div>
+                        <h4 class="mb-0 card-title fs-6">{{ $riwayatMagangCount }}</h4>
+                        <p class="card-subtitle">Riwayat Magang</p>
+                      </div>
+                      <span class="text-success fw-normal">+1.20%</span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
         @include('dashboard.layouts.footer')
     </div>
 @endsection

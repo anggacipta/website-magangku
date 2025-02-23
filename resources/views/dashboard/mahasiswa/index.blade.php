@@ -42,10 +42,13 @@
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $user->name }}</td>
+                        <td>{{ $user->nip_nrp }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ implode(', ', $user->roles->pluck('name')->toArray()) }}</td>
                         <td>
-                            <a href="{{ route('mahasiswa.show', $user->mahasiswa->id) }}" class="btn btn-primary">Detail User</a>
+                            @if ($user->mahasiswa)
+                                <a href="{{ route('mahasiswa.show', $user->mahasiswa->id) }}" class="btn btn-primary">Detail User</a>
+                            @endif
                             <a href="{{ route('mahasiswa.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('mahasiswa.destroy', $user->id) }}" method="post" class="d-inline delete-form">
                                 @csrf

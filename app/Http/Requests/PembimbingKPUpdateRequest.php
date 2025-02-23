@@ -26,7 +26,7 @@ class PembimbingKPUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'nip' => ['required', 'string', 'max:255'],
+            'nip_nrp' => ['required', 'string', 'max:255'],
             'password' => ['nullable', 'confirmed'],
         ];
     }

@@ -32,8 +32,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="nrp" class="form-label">NRP Mahasiswa</label>
-                                        <input type="number" name="nrp" class="form-control" id="nrp"
-                                               aria-describedby="emailHelp" value="{{ $user->nrp }}">
+                                        <input type="number" name="nip_nrp" class="form-control" id="nrp"
+                                               aria-describedby="emailHelp" value="{{ $user->nip_nrp }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

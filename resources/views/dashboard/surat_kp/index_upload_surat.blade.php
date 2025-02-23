@@ -46,7 +46,9 @@
                         <td>{{ $sur->tanggal_mulai }}</td>
                         <td>{{ $sur->tanggal_selesai }}</td>
                         <td>
-                            @if ($sur->status_surat == 3)
+                            @if ($sur->status_surat == 1)
+                                <span class="badge bg-warning">Menunggu Validasi</span>
+                            @elseif ($sur->status_surat == 3)
                                 <span class="badge bg-danger">Ditolak</span>
                             @elseif ($sur->status_surat == 4)
                                 <span class="badge bg-success">Diterima</span>
@@ -55,7 +57,9 @@
                             @endif
                         </td>
                         <td>
-                            @if($sur->status_surat == 3 || $sur->status_surat == 4)
+                            @if($sur->status_surat == 1)
+                               {{-- Kosong --}}
+                            @elseif ($sur->status_surat == 3 || $sur->status_surat == 4)
                                 <a href="{{ route('surat-kp.preview', $sur->id) }}" class="btn btn-primary" target="_blank">Preview PDF</a>
                             @else
                                 <a href="{{ route('surat-perusahaan.kp.show', $sur->id) }}" class="btn btn-success">Upload</a>

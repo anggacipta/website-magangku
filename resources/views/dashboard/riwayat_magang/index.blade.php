@@ -43,7 +43,7 @@
                 @foreach ($riwayats as $riwayat)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $riwayat->mahasiswa->name }}</td>
+                        <td>{{ $riwayat->user->name }}</td>
                         <td>{{ $riwayat->posisi }}</td>
                         <td>{{ $riwayat->nama_perusahaan }}</td>
                         <td>{{ \Carbon\Carbon::parse($riwayat->tanggal_mulai)->translatedFormat('d F Y') }}</td>

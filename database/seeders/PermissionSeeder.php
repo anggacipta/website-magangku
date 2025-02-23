@@ -17,11 +17,22 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'view_dashboard',
-            'manage_users',
-            'manage_roles',
-            'manage_permissions',
-            'view_reports',
+            'dashboard',
+            'data.master',
+            'data.lowongan.magang',
+            'tambah.lowongan.magang',
+            'berkas.kp',
+            'data.surat.kp',
+            'validasi.surat.kp',
+            'ajukan.surat.kp',
+            'upload.surat.perusahaan',
+            'status.mahasiswa',
+            'data.riwayat.magang',
+            'tambah.riwayat.magang',
+            'tambah.riwayat.magang.mahasiswa',
+            'pengguna',
+            'permission',
+            'roles'
         ];
 
         foreach ($permissions as $permission) {
@@ -30,11 +41,10 @@ class PermissionSeeder extends Seeder
 
         // Assign permissions to roles
         $rolePermissions = [
-            'admin' => ['view_dashboard', 'manage_users', 'manage_roles', 'manage_permissions', 'view_reports'],
-            'editor' => ['view_dashboard', 'view_reports'],
-            'viewer' => ['view_dashboard', 'view_reports'],
-            'moderator' => ['view_dashboard', 'view_reports'],
-            'guest' => ['view_dashboard'],
+            'pembimbing_kp' => ['dashboard', 'data.master', 'data.lowongan.magang', 'tambah.lowongan.magang', 'berkas.kp', 'data.surat.kp', 
+                                'validasi.surat.kp', 'status.mahasiswa', 'data.riwayat.magang', 'tambah.riwayat.magang', 'pengguna', 'permission', 'roles'],
+            'perusahaan' => ['dashboard', 'data.lowongan.magang', 'tambah.lowongan.magang'],
+            'mahasiswa' => ['dashboard', 'berkas.kp', 'data.surat.kp', 'ajukan.surat.kp', 'upload.surat.perusahaan', 'status.mahasiswa', 'tambah.riwayat.magang.mahasiswa'],
         ];
 
         foreach ($rolePermissions as $roleName => $permissions) {

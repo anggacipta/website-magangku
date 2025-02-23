@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Angkatan;
 use App\Models\Mahasiswa;
+use App\Models\PembimbingKP;
+use App\Models\Prodi;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -22,7 +25,10 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $prodis = Prodi::query()->select('id', 'nama_prodi')->get();
+        $angkatans = Angkatan::query()->select('id', 'tahun_angkatan')->get();
+        $pembimbings = PembimbingKP::with('user')->get();
+        return view('auth.register', compact('prodis', 'angkatans', 'pembimbings'));
     }
 
     /**
@@ -35,15 +41,30 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'nrp' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'nip_nrp' => ['required', 'string', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'pembimbing' => ['required', 'numeric'],
+            'angkatan' => ['required', 'numeric'],
+            'prodi' => ['required', 'numeric'],
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'nip_nrp.required' => 'NRP wajib diisi.',
+            'nip_nrp.unique' => 'NRP sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'pembimbing.required' => 'Pembimbing wajib dipilih.',
+            'angkatan.required' => 'Angkatan wajib dipilih.',
+            'prodi.required' => 'Prodi wajib dipilih.',
         ]);
 
         DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'nrp' => $request->nrp,
+                'nip_nrp' => $request->nip_nrp,
                 'password' => Hash::make($request->password),
             ]);
 
@@ -52,7 +73,10 @@ class RegisteredUserController extends Controller
 
             // Create a new Mahasiswa record
             $mahasiswa = Mahasiswa::create([
-                'user_id' => $user->id,
+                'id' => $user->id,
+                'prodi_id' => $request->prodi,
+                'angkatan_id' => $request->angkatan,
+                'pembimbing_id' => $request->pembimbing,
             ]);
 
             // Update the user with the mahasiswa_id
@@ -63,6 +87,6 @@ class RegisteredUserController extends Controller
             Auth::login($user);
         });
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('dashboard');
     }
 }

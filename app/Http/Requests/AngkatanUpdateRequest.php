@@ -24,7 +24,7 @@ class AngkatanUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'tahun_angkatan' => 'required',
+            'tahun_angkatan' => 'required|string',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SuratKP extends Model
 {
@@ -20,9 +21,15 @@ class SuratKP extends Model
         'nomor_surat',
         'status_surat',
         'upload_surat',
+        'mahasiswa_id'
     ];
 
     protected $casts = [
         'mahasiswa' => 'array'
     ];
+
+    public function mahasiswas(): BelongsTo
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
+    }
 }

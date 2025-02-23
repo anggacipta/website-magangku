@@ -24,7 +24,7 @@ class ProdiRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_prodi' => 'required|unique:prodi,nama_prodi',
+            'nama_prodi' => 'required|string|unique:prodi,nama_prodi',
         ];
     }
 }

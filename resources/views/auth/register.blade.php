@@ -20,11 +20,20 @@
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4">Register</h1>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" class="needs-validation" action="{{ route('register') }}" autocomplete="off">
                             @csrf
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="name">Nama lengkap:</label>
-                                <input id="name" type="text" class="form-control" name="name" required>
+                                <input id="name" type="text" class="form-control" name="name" required value="{{ old('name') }}">
                                 <div class="invalid-feedback" style="display: block;">
                                     {{ $errors->first('name') }}
                                 </div>
@@ -32,15 +41,42 @@
 
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="nrp">NRP:</label>
-                                <input id="nrp" type="text" class="form-control" name="nrp" required>
+                                <input id="nrp" type="text" class="form-control" name="nip_nrp" required value="{{ old('nip_nrp') }}">
                                 <div class="invalid-feedback" style="display: block;">
                                     {{ $errors->first('nrp') }}
                                 </div>
                             </div>
 
                             <div class="mb-3">
+                                <label class="mb-2 text-muted" for="prodi">Prodi:</label>
+                                <select name="prodi" id="prodi" class="form-select">
+                                    @foreach ($prodis as $pro)
+                                        <option value="{{ $pro->id }}">{{ $pro->nama_prodi }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="tahun-angkatan">Tahun Angkatan:</label>
+                                <select name="angkatan" id="tahun-angkatan" class="form-select">
+                                    @foreach ($angkatans as $angkat)
+                                        <option value="{{ $angkat->id }}">{{ $angkat->tahun_angkatan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="pembimbing">Pembimbing KP:</label>
+                                <select name="pembimbing" id="pembimbing" class="form-select">
+                                    @foreach ($pembimbings as $pem)
+                                        <option value="{{ $pem->id }}">{{ $pem->user?->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
                                 <label class="mb-2 text-muted" for="email">E-Mail Address</label>
-                                <input id="email" type="email" class="form-control" name="email" value="" required="" autofocus="">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required="" autofocus="">
                                 <div class="invalid-feedback" style="display: block;">
                                     {{ $errors->first('email') }}
                                 </div>
@@ -68,7 +104,7 @@
 
                             <div class="d-flex align-items-center">
                                 <button type="submit" class="btn btn-primary ms-auto">
-                                    Login
+                                    Register
                                 </button>
                             </div>
                         </form>
